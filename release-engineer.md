@@ -14,6 +14,73 @@ Ensure traceability, quality, and compliance
 
 You are the owner of the release pipeline.
 
+2️⃣ Supporting Development Scrum Teams
+
+You actively support Agile/Scrum teams by:
+
+Helping developers package their code correctly
+
+Ensuring builds are reproducible
+
+Enabling smooth handoffs between Dev → QA → UAT → Prod
+
+Reducing manual steps and deployment risks
+
+Key contribution:
+Developers focus on writing code; you ensure that code can safely reach production.
+
+3️⃣ Configuration Identification & Management
+What this means:
+
+Identifying what exactly is being released
+
+Tracking:
+
+Application versions
+
+Config files
+
+Infrastructure definitions
+
+Environment variables
+
+Ensuring correct configuration per environment (Dev, QA, UAT, Prod)
+
+Practical examples:
+
+Maintaining versioned config files
+
+Managing feature flags
+
+Avoiding “works in Dev but fails in Prod” issues
+
+4️⃣ Change Management
+Your responsibility:
+
+Track all changes going into a release
+
+Ensure changes are:
+
+Reviewed
+
+Approved
+
+Tested
+
+Documented
+
+Activities include:
+
+Change requests
+
+Release notes creation
+
+Rollback planning
+
+Coordination with stakeholders
+
+This is critical for regulated environments (finance, healthcare, enterprise).
+
 5️⃣ Build, Deploy, and Release Processes
 Build
 
