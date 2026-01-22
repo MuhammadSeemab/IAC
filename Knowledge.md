@@ -7,4 +7,7 @@ Azure: East US, West Europe
   - Disaster recovery
   - Data residency /compilance
   - Latency optimization
-If a region goes down -> everything in that region is affected.
+ > If a region goes down -> everything in that region is affected.
+## Availability Zone:
+# An Availability Zone is a physically separate data center inside a region.
+# A region contains multiple Azs
