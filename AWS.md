@@ -94,3 +94,12 @@ You manager
  OS                You                    Provider               Provider
  Virtualization    Provider               Provider               Provider
  Servers           Provider               Provider               Provider
+
+ ### Simple ananlogy
+ - IaaS - Renting a house (you manage everything inside)
+ - PasS - Serviced apartment (basic services included)
+ - Saas - Hotel (just use it)
+
+ IaaS Provide Infrasture
+ PaaS provides a development platform
+ SaaS provide complete software solution, each reducing the level of user management responsibility
