@@ -6,13 +6,13 @@ Access computing resources (like servers, storage, database, and software) over 
 and maintaining physical hardware.
 
 # Cloud Service provider:
-> Amazon Web Service (AWS)
-> Microsoft Azure
-> Google cloud Platform (GCP)
-> IBM Cloud
-> Oracle Cloud
-> Alibaba Cloud
-> Digital Ocean
-> Sales force
-> VMware Cloud
-> Rackspace Cloud
+- Amazon Web Service (AWS)
+- Microsoft Azure
+- Google cloud Platform (GCP)
+- IBM Cloud
+- Oracle Cloud
+- Alibaba Cloud
+- Digital Ocean
+- Sales force
+- VMware Cloud
+- Rackspace Cloud
