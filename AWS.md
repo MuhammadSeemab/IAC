@@ -341,3 +341,19 @@ And the answer is yes, and that will be the cloud.
 So I will see you in the next lecture
 
 to discuss a little bit more about the cloud.
+
+---------------------------------------------------
+# Slide 2 What is cloud computing
+## cloud computing is the on-demand delivery of compute power, database storage, applications, and IT resources.
+## through a cloud services platform with pay-as-you-go pricing
+## You can provision exactly the right type and size of computing resources you need
+## You can access as many resources as you need, almost instantly
+## simple way to access servers, storage, database and a set of application services.
+
+## Amazon Web Services owns and maintains the network-connected hardware required for these application services, while you provision and use what you need via a web application.
+
+## You have been using some cloud services
+### 1. Gmail
+  Email cloud services
+  Pay for only cloud services
+
