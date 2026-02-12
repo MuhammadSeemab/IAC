@@ -449,3 +449,113 @@ to discuss a little bit more about the cloud.
 ## Second one is PaaS (PaaS)
 
 ### Then we're gonna get platform as a service. In this, we're going to remove the need for your organization to manage the underlying infrastructure, and you can just focus on the deploymentand management of your applications.
+
+### And then one step even further is software as a service or SaaS. This is a completed product that is going to be run and managed by the service provider. So if you wanna compare all these things, well,
+
+### let's look at an example.
+
+On premises, you're going to manage everything. So your applications, your data, your runtime, your middleware, the operating system, virtualization,servers, storage and networking.
+
+And that's a lot. With IaaS, so infrastructure as a service, we're going to manage the application, the data, the runtime, the malware, and the OS.
+
+But all the virtualization servers, storage and networking are going to be managed by others. And in our case, AWS.
+
+### With platform as a service, we manage even less.
+
+### So everything from the runtime to the networking is managed by AWS. And the only thing we care about when we use a platform as a service is our application and our data.
+# slide 7
+
+### Well, with IaaS, we can use Amazon EC2 on AWS, but we have other services, such as Google Cloud, Azure, Rackspace, Digital Ocean and Linode,
+
+### which will provide us a cloud computing infrastructure as a service.
+
+### Well, with IaaS, we can use Amazon EC2 on AWS, but we have other services, such as Google Cloud,
+
+### Azure, Rackspace, Digital Ocean and Linode, which will provide us a cloud computing infrastructure as a service.
+
+### For software as a service, we'll also have this on AWS that represents many services of AWS, for example, Rekognition where we want to do some machine learning, but we've been using it as well in the real world with Google Apps, such as Gmail or Dropbox or Zoom for your meetings.So the Cloud has different flavors, but one thing is common is that the pricing is very different from what you know.
+
+# slide 8
+
+# Pricing of the Cloud
+
+## AWS has three pricing fundamentals 
+### it will follow the pay-as-you-go pricing model.
+
+## So for the compute, and that represents various services, we're going to pay for the exact compute time.
+
+## For the storage, we're going to pay for the exact amount of data stored in the cloud.
+
+## And for the networking, we're going to only pay when the data leaves the cloud.
+
+## Any data that goes into the cloud is free.
+
+### And this solves the expensive issue of traditional IT because now we only pay exactly what we need. And so we have huge cost savings ahead of us.
+# Slide 9
+
+
+-----------------------------------------
+## AWS Cloud Overview
+# Slide 10
+# Slide 11
+# Slide 12
+
+## AWS Global Infrastructure
+# Slide 13
+
+# AWS Regions
+## AWS has Regions all around the world.
+## The regions has Names like us-east-1, eu-west-3
+# Slide 14
+
+## A region is a cluster of data centres. Many different data centres are located in ohio, singapore, syndey and tokyo etc
+
+## when we are using AWS Service, most of the AWS Services are region-scoped. If you are using service in one region and we try to use service on another region then it will be new type of using service.
+
+# How to chose an AWS Region?
+if you need to launch a new application, where should you do it, you want in america, europe or south america. of cours the answer is it depends.
+
+# few factors which will affect to chose the AWS Regions
+1. Compilance with data goverance and legal requirements: data never leaves a region without your explicit permission. for example, Data in france may have to stay in france so you have to launch  the application in france region
+2. Proximity to customers: reduced latency. Most of user are in america then your applicaiton will be in america becaues it reduced the latency. if you deploy on australia. it have more latency.
+3. Available services within a Region: new services and new feature arenot available in every region. for example, if you want to leverage the application then it must be sure that sevices must exist in the region.
+4. Pricing: pricing varies regin to region and is transparent in the service pricing page. this is the critical factor which you want to deploy the applicaiton in region
+# Slide 15
+# AWS Availablility Zones:
+## Each region has many availablility zones (usually 3, min is 3, max is 6) Example  Each region have many availablity zones. if we take the example of syndey region, it code is "ap-southeast-2"
+1. ap-southeast-2a
+2. ap-southeast-2b
+3. ap-southeast-2c
+
+## each of the availablity zones is one or more discrete data centers with redundant power, networking and connectivity. May in ap-southeast-2a, i have two datacentres, ap-southeast-2b, i have two datacenters, in ap-southeast-2c, i have two datacentres but it could be one, three or four without knowing it. what important we know
+## THis availablility zones are separate from each other,so that they are isolated from disasters. if somethings happen in ap-southeast-2a office, we are cascade it from ap-southeast-2b office and ap-southeast-2c office
+
+## they are connected with high bandwidth, ultra-low latency networking. They are altogether  and linked together to form regions
+# Slide 15
+-------------
+# AWS Points of Presence (Edge Locations)
+AWS for Global Infrastructure is the Points of Presence (Edge Locations)
+Amazon has 400 + Points of Presence (400+ Edge Locations & 10 + Regional Caches) in 90 + cities across 40+ countries.
+# it is very helpful when we want to delive the Content to end users with lower latency
+# Slide 16
+
+-------------------------------
+# Tour of the AWS Console
+## AWS has Global Services:
+ 1. Identity and Access Management
+ 2. Route 53 (DNS service)
+ 3. CloudFront (Content Delivery Network)
+ 4. WAF (Web Application Firewall)
+ ## Most AWS services are Region-scoped
+  1. Amazon EC2 (Infrastructure as a Service)
+  2. Elastic Beanstalk (Platform as a Service)
+  3. Lambda (Function as a Service)
+  4. Rekognition (Software as a Service)
+
+To look the region, you can use this
+https://aws.amazon.com/about-aws/global-infrastructure/regions_az/
+  # IF we want to see the services exist, we have region table by url
+  # Slide 17
+
+  ----------------------------
+  # AWS Console UI Update
