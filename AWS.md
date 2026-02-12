@@ -357,3 +357,95 @@ to discuss a little bit more about the cloud.
   Email cloud services
   Pay for only cloud services
 
+## Dropbox
+### you Maybe you've stored some data on the cloud, maybe through Dropbox, Google Drive, Google Photos, iCloud, I don't know.
+
+### But with Dropbox, for example, it's a cloud store service, you're going to put your files on Dropbox. And originally, fun fact, Dropbox was built on AWS.
+
+## So we've been using a cloud storage service as well without knowing it.
+
+## And Netflix, it's huge. It is built entirely on AWS and it provides you a cloud service, which is to get video on-demand.
+
+## Now, obviously these cloud services are very different from AWS, but we'll learn what it goes behind these services and how AWS can help you buil these kinds of cloud services.
+
+## The first one is called a private cloud and the provider is, could be Rackspace. This is cloud services used by a single organization,
+
+## they're not exposed to the public, so you get your own private cloud, your own private data center,
+
+## it's just managed by someone else. You still have complete control over it and you have more security for a sensitive application, which may need some specific business needs.
+
+## This is out of scope for this course,
+
+# Public CLoud
+
+## So three famous cloud providers that are public, are Microsoft Azure, Google Cloud, and Amazon Web Services that we'll be learning in this course, obviously.
+
+## So in this case, the cloud resources own and operated by a third party cloud service provider and and they're delivered over the Internet
+
+# Hybrid Cloud
+## And then lastly, which is also important for the exam is the concept of a hybrid cloud.
+
+## So with hybrid, we're actually getting the mix of private and public.
+
+## We're going to keep some servers on premises and we'll extend some of the capabilities we need into the cloud.
+
+## That means that we'll have a hybrid of our own infrastructure and the AWS cloud.
+
+# Five chararcteristics of Cloud Computing
+
+## The first one is that it's fully on-demand and self service. Users, and we'll see this in this course, we will be able to provision resources and use them without having anyone from AWS intervene.
+
+## Then we'll be having access to a broad network, the resources will be available over the network, and it can be accessed in diverse ways
+
+## It'll be multi-tenancy and we'll have resource pooling. So that means that not just us, but other customers from AWS can share the same infrastructure and applications while still having security and privacy.
+
+## And then these multiple customers are getting serviced from the same physical resources.
+
+## So here, me, you, and other customers, So here, me, you, and other customers, we're going to share this entire data center of the cloud.
+
+## This gives us rapid elasticity and scalability. That means that we can automatically and quickly acquire and dispose resources when we need.
+
+## And that means that we can quickly and easily scale based on demand. And that is a major advantage of the cloud.
+
+# Six Advanatage of Cloud Computing
+
+## We're going to trade capital expenses for operational expenses, so CAPEX or OPEX. That means that you don't own hardware,
+
+## you're going to pay on-demand and that will reduce your total cost of ownership, your TCO, and your operational expense.
+
+## That means that you don't buy the hardware in advance, you're just going to rent it from AWS.
+
+## Then we're going to benefit from massive economies of scale. The price is because we are using AWS, not just us, but other customers and so many people are using it,
+
+## then the prices will be reduced by AWS over time because AWS will be more efficient at running due to its large scale. We also need to stop guessing capacity.
+
+## Before we had to plan and buy servers in advance and hope that it would meet the capacity,
+
+## but now we can actually scale automatically based on the actual measured usage for our application. And because everything's on-demand, we have increased speed and agility. We can create, operate and do stuff right away, no blockers for us to be efficient.
+## And finally, we have a huge cost that we don't need to have anymore, which is we can stop spending money running and maintaining data centers.
+
+## And this allows a team of say five people to create a global application in minutes, thanks to leveraging this AWS global infrastructure that is going to be worldwide.
+
+## Okay. So the problems we've just solved by using the cloud is that we're more flexible, we're more cost effective, we are more scalable because we can add resources as we need to go along,
+
+## . So the problems we've just solved by using the cloud is that we're more flexible, we're more cost effective, we are more scalable because we can add resources as we need to go along,
+
+## we're elastic, we can scale out and scale-in when needed, we also have high availability and fault tolerance because we don't really on the one data center, we rely on the fleet of data centers all around the world.
+
+## We're more agile, we can rapidly develop, test and launch software applications, and although this make the cloud a really no brainer.
+
+## So that's it, just for an introduction of how the cloud is going to be effective.
+--------------------------------------------------
+# Slide N0-4 Types of Cloud Computing
+## First one is IAAS
+### As we will see in this course, there are different types of cloud computing and it is important for us to be able to recognize them.
+
+### The first one is called Infrastructure as a Service or IaaS.
+
+### This is to provide the building blocks for cloud IT. With this IAAS, we're going to provide networking, computers and data storage space in its raw form. And using these building blocks, (indistinct) building LEGOs,
+
+### We're going to be given a very high level of flexibility and we can easily understand how we can migrate from traditional on-premises IT to the cloud.
+
+## Second one is PaaS (PaaS)
+
+### Then we're gonna get platform as a service. In this, we're going to remove the need for your organization to manage the underlying infrastructure, and you can just focus on the deploymentand management of your applications.
