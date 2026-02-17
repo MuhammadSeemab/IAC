@@ -559,3 +559,71 @@ https://aws.amazon.com/about-aws/global-infrastructure/regions_az/
 
   ----------------------------
   # AWS Console UI Update
+
+  ### aws global infrastrucute website tell you which service are located in which region
+  ### For example
+  ### Route53 service is a global infrasturture service (which is not in region). THis service do not require region. Some service in the AWS are global. No matter where you are and you have same view.
+
+  ### if you go to EC2 instance then you look at top right, it show the region different in canda and ireland.
+
+  if you write this # aws global infrastruture.
+  THis give you lot of information around your services.
+  One thing we have to look at # AWS Regional Service List
+# Slide 18
+i can check in the region specific and are this service exist in this region
+through writing this in google in aws global infrastructure and press # regional
+
+
+
+----------------------------------------
+# Slide 13 Shared responsiblity Model
+  # Slide 19
+
+  # This is what define what is your responsibility versus AWS when using the cloud and there is a shared responsibility.
+  ### You as a customer, you're responsible for the security in the cloud. So whatever you use in the cloud, however you configure it is your entire responsibility. That includes security, your data, your operating system,
+### your network and firewall configuration, et cetera.
+
+## And AWS is going to be responsible for the security of the cloud. So all the infrastructure, all the hardware, all the software, all their own internal security, they are responsible of.
+
+## And this is why we have shared responsibility.
+
+# Quiz Done
+
+--------------------
+---------IAM----------
+# IAM
+## IAM: Users & Groups
+## IAM = Identity and Access Management, Global Service
+# In IAM, we are going to create our users and assign them to group. when we created an account, we created a root accounts, and has been created by default. This is the root user of our accounts.
+
+## And the only things you should use it for is to set up your account as we'll do it right now.
+## What you should be doing instead, is create users. So you will create users in IAM, and one user represents one person within your organization. And the users can be grouped together if it makes sense.
+
+ ### So let's take an example we have an organization with six people.
+
+### You have Alice, Bob, Charles, David, Edward and Fred so all these people are in your organization.
+
+Now Alice, Bob, and Charles they work together. They're all developers.
+
+### So we're going to create a group called the group developers who regrouping Alice,Bob and Charles.
+
+### And it turns out that David and Edward also work together. So we're going to create an operations group.
+
+### Now we have two groups within IAM. 
+# Now groups can only contain users, not other groups. So this is something very important to understand. Groups only contain users.
+
+## For example, Fred right here is alone, he does not correspond to any group.
+
+**That is not best practice. But it is something you can do in AWS.**
+
+And also, a user can belong to multiple groups. That means that for example, if you know that Charles and David worked together, and they're part of your audit team,
+
+you can create a third group with Charles and David.
+
+And as you can see, now, in this example,
+
+Charles and David are part of two different groups.
+
+So this is the possible configurations for IAM.
+
+# Slide20
