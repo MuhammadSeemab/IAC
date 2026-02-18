@@ -627,3 +627,80 @@ Charles and David are part of two different groups.
 So this is the possible configurations for IAM.
 
 # Slide20
+--------------
+# So why do we create users and why do we create groups?
+## Well, because we want to allow them to use our AWS accounts and to allow them to do so, we have to give them permissions. So users or groups can be assigned what's called a JSON document I'll show you right now what it means called a policy, an IAM policy. So it looks just like this.
+So it looks just like this. So you don't have to be a programmer. This is not programming. This is just describing in, I think plain English, what a user is allowed to do or what a group and all the users within that group are allowed to do.
+
+# Slide21
+
+In Slide 21, So in this example, we can see that we allow people to use the EC2 to service and do describe on it, to use the elastic load balancing serviceand to describe on it and to use CloudWatch.
+
+Now we'll see what EC2 elastic load balancing and CloudWatch mean, but through this JSON document that looks just like this.
+
+We are allowing our users to use some services in AWS.
+
+# So these policies will help us define permissions of our users.
+
+And so in AWS, you don't allow everyone to do everything that would be catastrophic, ou don't allow everyone to do everything that would be catastrophic, because a new user could basically launch so many services
+
+and they will cost you a lot of money or would be valid for security.
+So in AWS, you apply a principle called the least privilege principle. So you don't give more permissions than a user needs. Okay, so if a user just needs access to three services, just create a permission for that user.
+
+So now we have seen an overview IAM.
+
+---------------------------------------------------------
+# New Slide "IAM Users & Groups Hands ON"
+
+----------------------------------------------
+# New Slide  IAM Policies
+# IAM Policies Inheritance
+
+NOw IAM Policies in depth
+### So let's imaging we have a group of developers. Alice, Bob and Charles, and we, attach a policy at the group level. In that case, the policy will get applied to every single member of the group
+### so both Alice, Bob, and Charle, they will all get access and inherit this policy.
+### Now, if you have a second group with operations with a different policy, David and Edward will have a different policy than the group of developers.
+### If Fred is a user, it has the possibility not to belong to a group. And we have the possibility to create what's called an inline policy which has a policy that's only attached to a user.
+
+### So that user could or could not belong to a group, you can have inline policies for whatever user you want.
+### And finally, if Charles and David both belong to the audit team and you attach a policy to the audit team as well, Charles and David will also inherit that policy from the audit team.
+
+## So in this case, Charles has a policy from developers and a policy from audit team.
+
+## And David has a policy from audit team and a policy from the operations team.
+
+That should make a lot of sense
+
+# Slide 22: This slide describe above scenario
+
+# IAM Policies Structure
+# you just need to know at a high level how it works, as well as how it is named. So this is something you will see quite a lot in AWS, so get familiar with this structure this is adjacent documents.
+
+## IAM policy structure consist of a version number, so usually it's 2012-10-17, this is the policy language version. And ID which is how to identify that policy,this is optional.
+
+## And then more statements, and statements can be one or multiple ones, and a statement has some very important parts. So the Sid is a statement ID, which is an identifier for the statement, which is optional as well,
+
+## so on the right hand side is the number one.
+
+The effect of the policy itself, so it is whether or not the statement allows or denies access to certain API, so in the right hand side, this says allow, but you can see deny as well.
+
+# The principle consists of which accounts, user or role which, to which this policy will be applied to. So in this example, it's applied to the root accounts of your AWS accounts.
+
+# Action is the list of API calls that will be either denied or allowed based on the effect
+
+# And the resource is a list of resources, to which the actions will be applied to.
+
+So in this example, it is a bucket, but it could be many different things.
+
+# And finally in, not represented here ut there's a condition to which when this statement should be applied or not,and this is not representative here because it is optional.
+
+# Slide 23 (describe above)
+
+
+# So going into the exam, you need to make sure that you really understand the effect, the principle, the action and resource, but don't worry, you will see those along the way in the course
+
+
+
+
+
+
