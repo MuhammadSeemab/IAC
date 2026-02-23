@@ -40,3 +40,65 @@ With GitHub Copilot, you will do hands on demos using this prompt engineering, a
 an enterprise level case study for DevOps and DevSecOps engineers using GitHub Copilot.
 
 [Screenshot](../Images/MasteringGithub-01.png)
+-------------------------------------------------------------------
+Slide#2:
+Agenda
+[Screenshot](../Images/MGP2.png)
+
+-----------------------------
+
+Slide#3:
+# Generative AI
+###  generative AI is made up of two terms gen and I. Where AI stands for artificial intelligence. We are building artificial intelligence in machines to generate various types of content. This content can be images.
+### We can use gen AI or generative AI to generate images for us. By giving some context, we can ask generative AI models to generate images for us.
+### Similarly, we can use these models to write code for developers, DevOps engineers, DevSecOps engineers,
+
+### QA engineers as well. If you are working in Java, you can ask generative AI model to write a Java file. If you are writing a Terraform file, you can ask generative AI to write a Terraform file.If you are in DevSecOps, you can ask generative AI model to Integrate security tools in CI CD pipelines.
+
+## Hence the applications are unlimited.
+For example, if the model has been trained on Node.js, it will be able to generate code in Node.js. But if the generative AI model is not trained on Node.js, it will not be able to generate code.
+
+This is very popular, as you might already be using ChatGPT from OpenAI for generating text, but there are other AI solutions as well that help us in generating text.
+Let's first see AI solutions available in market that helps to generate images.
+
+One is Dall-E. Dall-E is from OpenAI that helps to generate pictures or images.
+
+The next one is Artbreeder. Artbreeder is another AI solution that helps to generate images.
+
+Similarly, Deepart is also one popular example as well.
+
+One popular is ChatGPT.
+
+You might have already used ChatGPT.
+
+Now ChatGPT has multiple models, which is ChatGPT 3.5, four and 40, and each model is an improved
+
+version of the previous one.
+
+Then copy AI is another popular Gen I example.
+
+Third is Jasper, which is widely used in the market as well.
+
+There are others as well, but I have listed the most popular ones here.
+
+Let's see some AI solutions for generating music.
+
+One is Musenet.
+
+Second is Aiwa and third is Amper.
+
+**These three solutions are available in the market, which are quite popular examples of JNI.
+**
+And finally, the most focused category here is code generation examples.
+
+And finally, the most focused category here is code generation examples.
+
+Very popular is **Microsoft Copilot**.
+
+The next is** code T5 and Tab nine Copilot code T5**.
+
+Tab nine are quite popular in the market for generating code, and all these tools represent some of
+
+the use cases of generative AI.
+[Screenshot](../Images/MGP3.png)
+
