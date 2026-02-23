@@ -102,3 +102,18 @@ Tab nine are quite popular in the market for generating code, and all these tool
 the use cases of generative AI.
 [Screenshot](../Images/MGP3.png)
 
+--------------------------------------------------
+# Generative AI - Basic Terms
+
+Artificial intelligence is a branch of computer science that aims to create machines capable of intelligent behavior.
+
+Think of artificial intelligence as a science of making computers smart, enabling these computers to perform tasks that would otherwise require human intelligence.
+
+These tasks include learning, reasoning, problem solving, understanding, natural language, and even perception.
+
+Artificial intelligence makes the computers capable to learn new things, to reason before taking any decision, to solve complex problems, to understand natural language, and to have perception.
+
+**But how does artificial intelligence do that?**
+
+**And how does artificial intelligence make computers capable of these capabilities?**
+****
