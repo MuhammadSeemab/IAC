@@ -38,3 +38,5 @@ The prompt engineering strategies.
 With GitHub Copilot, you will do hands on demos using this prompt engineering, and also you will implement
 
 an enterprise level case study for DevOps and DevSecOps engineers using GitHub Copilot.
+
+[Screenshot](../Images/MasteringGithub-01.png)
