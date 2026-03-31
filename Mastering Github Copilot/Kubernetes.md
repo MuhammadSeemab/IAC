@@ -130,4 +130,181 @@ This software may consist of a different user interface drivers, compilers, file
 
 ![Document](../Images/doc2.png)
 
+We said earlier that Docker containers share the underlying kernel. So what does that actually mean?
 
+Sharing the kernel.
+Let's say we have a system with an ubuntu OS.
+
+With Docker installed on it.
+
+Docker can run any flavor of OS on top of it, as long as they are all based on the same kernel.
+
+In this case, Linux.
+
+If the underlying OS is ubuntu.
+
+Docker can run a container based on another distribution like Debian, fedora, Susi or CentOS.
+
+Each Docker container only has the additional software that we just talked about in the previous slide
+
+that makes these operating systems different.
+
+And Docker utilizes the underlying kernel of the Docker host which works with all OSS above.
+
+So what is an OS that do not share the same kernel as this windows?
+
+And so you won't be able to run a windows based container on a Docker host with Linux on it.
+
+For that you will require a Docker on a windows server.
+Now it is when I say this that most of my students go, hey, hold on there.
+
+That's not true.
+
+And they install Docker on windows, run a container based on Linux and go see it's possible.
+
+Well, when you install Docker on Windows and run a Linux container on windows, you're not really running
+
+a Linux container on windows.
+
+Windows runs a Linux container on a Linux virtual machine under the hood.
+
+So it's really Linux container on Linux, virtual machine on Windows.
+
+We discussed more about this on the Docker on Windows or Mac later during this course.
+
+Now you might ask, isn't that a disadvantage then not being able to run another kernel on the OS?
+
+The answer is no, because unlike hypervisors, Docker is not meant to virtualize and run different
+
+operating systems and kernels on the same hardware.
+
+## The main purpose of Docker is to package and containerize Various applications and to ship them and
+
+to run them anywhere, anytime, as many times as you want.
+
+So that brings us to the differences between virtual machines and containers, something that we tend
+
+to do, especially those from a virtualization background.
+
+![Document](../Images/doc3.png)
+
+
+So that brings us to the differences between virtual machines and containers, something that we tend
+
+to do, especially those from a virtualization background.
+As you can see on the right, in case of Docker, we have the underlying hardware infrastructure and
+
+then the OS and then Docker installed on the OS.
+
+Docker then manages the containers that run with libraries and dependencies alone.
+
+In case of virtual machines, we have the hypervisor like ESX on the hardware and then the virtual machines
+
+on them.
+
+As you can see, each virtual machine has its own OS inside it, and then the dependencies and then
+
+the application.
+
+The overhead causes higher utilization of underlying resources, as there are multiple virtual operating
+
+systems and kernels, running the virtual machines also consume higher disk space, as each VM is heavy
+
+and is usually in gigabytes in size, whereas Docker containers are lightweight and are usually in megabytes
+
+in size.
+
+This allows Docker containers to boot up faster, usually in a matter of seconds, whereas VMs, as
+
+we know, takes minutes to boot up as it needs to boot up the entire operating system.
+
+It is also important to note that Docker has less isolation as more resources are shared between the
+
+containers, like the kernel, whereas VMs have complete isolation from each other since VMs don't rely
+
+on the underlying OS or kernel.
+
+
+You can run different types of applications built on different OSes, such as Linux based or windows
+
+based apps on the same hypervisor.
+
+So those are some differences between the two.
+
+Now, having said that, it's not an either container or virtual machine situation.
+
+It's containers and virtual machines.
+It's containers and virtual machines.
+
+Now when you have large environments with thousands of application containers running on thousands of
+
+Docker hosts, you will often see containers provisioned on virtual Docker hosts.
+
+That way, we can utilize the advantages of both technologies.
+
+We can use the benefits of virtualization to easily provision or decommission Docker hosts as required.
+
+At the same time, make use of the benefits of Docker to easily provision applications and quickly scale
+
+them as required.
+
+But remember that in this case, we will not be provisioning that many virtual machines as we used to
+
+before, because earlier we provisioned a virtual machine for each application.
+
+Now you might provision a virtual machine for hundreds or thousands of containers
+
+![Document](../Images/doc4.png)
+
+So how is it done?
+
+There are lots of containerized versions of applications readily available as of today.
+
+So most organizations have their products containerized and available in a public Docker repository
+
+called Docker Hub or Docker Store.
+
+For example, you can find images of most common operating systems, Databases and other services and
+
+tools.
+
+Once you identify the images you need and you install Docker on your host, bringing up an application
+
+is as easy as running a docker run command with the name of the image.
+
+In this case, running a docker run ansible command will run an instance of Ansible on the Docker host.
+
+Similarly, run an instance of MongoDB, Redis, and Node.js using the docker run command.
+
+If you need to run multiple instances of the web service, simply add as many instances as you need
+
+and configure a load balancer of some kind in the front.
+
+In case one of the instances were to fail, simply destroy that instance and launch a new one.
+
+There are other solutions available for handling such cases that we will look at later during this course,
+
+and for now, don't focus too much on the commands.
+
+We will get to that in a bit.
+![Document](../Images/doc5.png)
+
+
+# We've been talking about images and containers.
+Let's understand the difference between the two An image is a package or a template, just like a VM
+
+template that you might have worked with in the virtualization world.
+
+It is used to create one or more containers.
+
+# Containers are running instances of images that are isolated and have their own environments and set of processes.
+
+As we have seen before, a lot of products have been dockerized already.
+
+In case you cannot find what you're looking for, you could create your own image and push it to Docker
+
+Hub repository, making it available for public.
+
+So if you look at it traditionally, developers developed applications.
+
+![Document](../Images/doc6.png)
