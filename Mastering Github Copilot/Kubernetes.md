@@ -102,3 +102,32 @@ We will look at what that means in a bit, but it's also important to note that c
 
 with Docker.
 ![Document](../Images/doc1.png)
+
+Containers have existed for about ten years now, and some of the different types of containers are
+
+LXC, LXD, Lcfs, etc..
+
+Docker utilizes LXC containers.
+
+Setting up these container environments is hard as they are very low level, and that is where Docker
+
+offers a high level tool with several powerful functionalities, making it really easy for end users
+
+like us to understand how Docker works, let us revisit some basic concepts of operating systems first.
+first.
+
+If you look at operating systems like ubuntu, fedora, Susi, or CentOS, they all consist of two things
+
+an OS kernel and a set of software.
+
+The OS kernel is responsible for interacting with the underlying hardware, while the OS kernel remains
+
+the same, which is Linux.
+
+In this case, it's the software above it that makes these operating systems different.
+
+This software may consist of a different user interface drivers, compilers, file managers, developer tools, etc. so you have a common Linux kernel shared across all OSes and some custom software that differentiate operating systems from each other.
+
+![Document](../Images/doc2.png)
+
+
