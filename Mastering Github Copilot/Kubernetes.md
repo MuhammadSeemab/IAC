@@ -1582,3 +1582,5 @@ Pod Overview- https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/
 ![Document](../Images/doc57.png)
 ![Document](../Images/doc58.png)
 
+![Document](../Images/doc59.png)
+
