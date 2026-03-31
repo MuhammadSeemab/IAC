@@ -992,3 +992,593 @@ So I just wanted to throw that out there before we proceed.
 ![Document](../Images/doc37.png)
 ![Document](../Images/doc38.png)
 ![Document](../Images/doc39.png)
+
+
+--------------------------------------------------------
+# Section -3
+# Slide Setting Up Kubernetes
+
+Let us now look at how to set up a Kubernetes cluster and gain access to it.
+
+So there are lots of ways to set up and get started with Kubernetes, so we can set it up ourselves
+
+from scratch locally on our laptops or virtual machines.
+
+Or we could use an existing managed service on a cloud provider, or you can access publicly accessible,
+![Document](../Images/doc40.png)
+uh, playgrounds.
+
+So for local systems, solutions like Docker Desktop, minikube and Kube admin are popular tools.
+
+Docker desktop is probably the easiest to get started with, and as it has Kubernetes support built
+
+in, and then you have minikube, which is a tool used to set up a single instance of Kubernetes in
+
+an all in one setup.
+
+And kube admin is a tool used to configure Kubernetes in a multi node setup, and we will look more
+
+into that later.
+
+There are also hosted versions available for setting up Kubernetes in a cloud environment such as GCP,
+
+AWS or Azure.
+
+And these are one click access.
+
+So you just click a button and it provisions an entire Kubernetes cluster for you.
+
+And then you gain access to it.
+
+And you can just continue to work with it without spending time setting it up.
+
+And finally, if you don't have the resources or if you don't want to go through this hassle of setting
+
+it all up for yourself as part of your learning process, and you just want an instant access to a Kubernetes
+
+cluster just to play with or run some commands and test test it around, then the best option is playgrounds.
+
+So one of the playgrounds that are available provided by us is the cloud playgrounds that are accessible
+
+at code Cloud.com.
+
+I'll also show a little bit of information about that in a bit.
+
+Now feel free to choose the one that is right for you.
+
+You don't need to go through all of the demos.
+
+Pick the ones that best suit your needs based on your time and resources.
+
+So just starting with Docker Desktop.
+
+So Docker Desktop is a free solution available with Docker.
+
+So if you go to the Docker Docker website you have options to download and install Docker on all of
+
+these different options that are available here.
+
+So you have Docker for Docker Desktop for Mac, both for, um, silicon as well as Intel chips.
+
+Similarly, you have Docker Desktop for windows, both for AMD and ARM chips, and then you have the
+
+Docker for desktop for Linux.
+
+Now once you, uh, set up and install Docker desktop, this is kind of the interface that you're going
+
+to see.
+
+You'll be able to see all the containers running and their information and a lot of other information.
+
+The best part is that it comes with Kubernetes built in.
+![Document](../Images/doc41.png)
+So if you go to settings and to Kubernetes section in the settings, all you need to do is enable Kubernetes
+
+from there.
+
+And it kind of sets up an instant Kubernetes cluster that you can play around with, uh, in the back
+
+end.
+
+So very easy to set up and gain access to Kubernetes.
+
+
+The next option I'm going to show is the, uh, code cloud public playgrounds.
+![Document](../Images/doc42.png)
+
+So, uh, this is built specifically for those who wants to have instant access to the, um, two,
+
+a Kubernetes cluster, specifically a historical version of the cluster two.
+
+So as you can see here, we currently support up to four historical versions of Kubernetes.
+
+So if you want to see if you want to go back to a previous version of Kubernetes cluster and, you know,
+
+compare and see features and differences between the clusters in between different versions, then this
+
+is a really good option.
+
+One click and you get this cloud Kubernetes playground open up in the right in the browser that you
+
+can then refer to.
+
+So moving on to minikube, which is another easy way to get started with Kubernetes on a local system.
+
+So before we head into the demo, it's good to understand how it works.
+![Document](../Images/doc43.png)
+Earlier, we talked about the different components of Kubernetes that make up a control plane and worker
+
+nodes such as the API server, etcd key value store controllers and scheduler on the master or the control
+
+plane, and then you have the Kubernetes and container runtime on the worker nodes.
+
+Now, it would take a lot of time and effort to set up and install all of these various components on
+
+different systems, individually, by ourselves, which is why a mini cube bundles all of these different
+
+components into a single image, providing us a pre-configured single node Kubernetes cluster so we
+
+can get started in a matter of minutes.
+
+Now, to make it easier, the whole bundle is packaged into an ISO image and is available online for
+
+download.
+
+![Document](../Images/doc44.png)
+
+Now you don't have to download it yourself.
+![Document](../Images/doc45.png)
+Minikube provides an executable command line utility that will automatically download the ISO image
+
+and deploy it in a virtualization platform such as Oracle VirtualBox or VMware fusion.
+
+So you must have a hypervisor installed on your system.
+
+So for windows you would use VirtualBox or Hyper-V.
+
+And for Linux you use VirtualBox or KVM.
+
+And finally, to interact with the Kubernetes cluster, you must have the kubectl Kubernetes command
+
+line tool also installed on your machine.
+
+**So you need three things to get this working.
+
+So you must have a hypervisor installed.
+
+You have kubectl installed and you have minikube executable installed on your system.
+**
+Let's check it out.
+
+
+-----------------------------
+# Slide 4 Installed Minikube
+In this demo, we are going to install a basic Kubernetes cluster using the minikube utility.
+
+As part of this beginners course, to keep things simple and easy, we will stick to minikube as our
+
+lab solution.
+
+We explore additional options of provisioning Kubernetes cluster using the Kube admin tool in the course.
+
+As for this course, we just want to stick to the very basics and all the basic operations can be performed
+
+on minikube cluster.
+
+It may be called kube control or kubectl or kubectl whatever you prefer.
+
+Now you might hear me mix it up at times, so bear with me on that.
+
+**So the kubectl command line tool is what we will use to manage our Kubernetes resources and our cluster
+
+after it is set up using minikube and installing the kubectl utility before installing minikube will
+
+allow minikube to configure the kubectl utility to work with the cluster when it provisions it.
+**
+**So the kubectl utility can work with multiple clusters, local or remote clusters at the same time.
+**
+And there's a small configuration for it.
+
+And there's a small configuration for it.
+
+And minikube will automatically take care of that when it starts when it provisions a Kubernetes cluster.
+
+But that is if you already have the kubectl utility installed.
+
+
+And finally we're going to move this to a location within the path usr local bin.
+
+Okay.
+
+So this way I'll be able to run this kubectl command from anywhere within my system.
+
+So let's run the command and you can see that it has installed the 1.8 version.
+
+Now that we have completed the installation of kubectl utility, we can proceed with the installation
+
+of minikube.
+**Now the first thing that we have to check, and this goes for all operating systems Linux, windows
+
+or Mac is to make sure that virtualization is enabled for your laptop or desktop wherever you're setting
+
+up this lab.
+**
+So one of the easy ways to make sure that virtualization is enabled on Linux is to grep for the VM or
+
+the SCM keyword under the proc CPU info file.
+
+So that's what I'm going to do now.
+
+So as long as this command shows an output such as the switches listed here, virtualization has been
+
+enabled.
+
+And you don't have to enable it specifically from the Bios.
+
+If it's not enabled then you have to check your laptop's Bios settings.
+
+So you have to restart your laptop, go into the Bios and there should be an option to enable virtualization.
+
+And you have to do that.
+
+Um, you might have to check your laptop's manual, um, in order to know how that's done or just Check
+
+online with your laptop model and search how to enable virtualization on your laptop.
+
+And again, make sure that you check the documentation here for the respective operating system that
+
+you are on.
+
+For each of these, there are specific commands that can be used to run a test to see whether virtualization
+
+has been enabled.
+
+Okay.
+So next we're going to install minikube.
+
+And again we will go ahead with the option for Linux.
+
+And the first prerequisite is to install kubectl which we have already done.
+
+The next one is to install a hypervisor.
+
+So for Linux we can either use KVM or VirtualBox.
+
+Um we will go with VirtualBox as that is our preferred virtualization solution.
+
+You can also run minikube without a hypervisor and directly on your host using Docker.
+
+So if you already have Docker installed you could leverage that.
+**And um kubectl utility is now configured to use the Kubernetes cluster provisioned using minikube.
+**
+-----------------------------------------------------
+
+# Slide Pods
+Before we head into understanding pods, we would like to assume that the following have been set up already.
+
+At this point, we assume that the application is already developed and built into Docker images, and it is available on Docker repository like Docker Hub, so Kubernetes can pull it down.
+
+We also assume that the Kubernetes cluster has already been set up and is working.
+
+This could be a single node setup or a multi node setup.
+
+Doesn't matter.
+All the services need to be in a running state, as we discussed before with Kubernetes.
+
+Our ultimate aim is to deploy our application in the form of containers on a set of machines that are configured as worker nodes in a cluster.
+![Document](../Images/doc46.png)
+# However, Kubernetes does not deploy containers directly on the worker nodes.
+# The containers are encapsulated into a Kubernetes object known as pods.
+# A pod is a single instance of an application.
+
+# A pod is the smallest object that you can create in Kubernetes.
+![Document](../Images/doc47.png)
+**Here we see the simplest of simplest cases, where you have a single node Kubernetes cluster with a
+
+single instance of your application running in a single Docker container encapsulated in a pod.
+
+What if the number of users accessing your application increase and you need to scale your application?
+
+You need to add additional instances of your web application to share the load.
+
+
+Now where would you spin up additional instances?
+
+Do we bring up new container instances within the same pod?
+**
+No.
+![Document](../Images/doc48.png)
+
+We create new pod altogether with a new instance of the same application.
+
+As you can see, we now have two Instances of our web application running on two separate pods on the
+
+same Kubernetes system or node.
+
+**What if the user base further increases and your current node has no sufficient capacity?
+
+Well, then you can always deploy additional pods on a new node in the cluster.
+**
+![Document](../Images/doc49.png)
+
+You will have a new node added to the cluster to expand the cluster's physical capacity.
+
+So what I'm trying to illustrate in this slide is that pods usually have a 1 to 1 relationship, with
+
+containers running your application.
+
+To scale up, you create new pods, and to scale down you delete existing pods.
+
+**You do not add additional containers to an existing pod to scale your application.
+**
+Also, if you're wondering how we implement all of this and how we achieve load balancing between containers,
+
+etc., we will get into all of that in a later lecture.
+
+# We just said that pods usually have a 1 to 1 relationship with the containers. But are we restricted to having a single container in a single pod?
+
+No.
+
+A single pod can have multiple containers, except for the fact that they're usually not multiple containers
+
+of the same kind.
+
+As we discussed in the previous slide, if our intention was to scale our application, then we would
+
+need to create additional pods.
+
+But sometimes you might have a scenario where you have a helper container that might be doing some kind
+
+of supporting task for our web application, such as processing a user entered data, processing a file
+
+uploaded by the user, etc. and you want these helper containers to live alongside your application
+
+container.
+
+In that case, you can have both of these containers part of the same pod, so that when a new application
+
+container is created.
+
+The helper is also created and when it dies, the helper also dies.
+
+Since they are part of the same pod, the two containers can also communicate with each other directly
+
+by referring to each other as local host, since they share the same network space.
+
+Plus, they can easily share the same storage space as well.
+
+If you still have doubts in this topic, I would understand if you did, because I did.
+
+The first time I learned these concepts, we could take another shot at understanding pods from a different
+
+angle.
+The first time I learned these concepts, we could take another shot at understanding pods from a different
+
+angle.
+
+Let's for a moment keep Kubernetes out of our discussion and talk about simple Docker containers.
+
+Let's assume we were developing a process or a script to deploy our application on a Docker host.
+
+Then we would first simply deploy our application using a simple Docker run Python app command.
+
+And the application runs fine and our users are able to access it.
+
+When the load increases, we deploy more instances of our application by running the Docker run commands
+
+many more times.
+
+This works fine and we're all happy.
+
+Now, sometime in the future, our application is further developed, undergoes architectural changes,
+
+and grows and gets complex.
+![Document](../Images/doc50.png)
+We now have a new helper container that helps our web application by processing or fetching data from
+
+elsewhere.
+
+These helper containers maintain a 1 to 1 relationship with our application container, and thus needs
+
+to communicate with the application containers directly and access data from those containers.
+
+For this, we need to maintain a map of what app and helper containers are connected to each other.
+
+We would need to establish network connectivity between these containers ourselves using links and custom
+
+networks.
+
+We would need to create shareable volumes and share it among the containers.
+
+We would need to maintain a map of that as well.
+
+And most importantly, we would need to monitor the state of the application container and when it dies,
+
+manually kill the helper container as well, as it's no longer required.
+
+When a new container is deployed, we would need to deploy the new helper container as well with pods.
+
+# Kubernetes does all of this for us automatically.
+
+We just need to define what containers a pod consists of, and the containers in a pod by default will
+
+have access to the same storage, the same network namespace, and same fate as in they will be created
+
+together and destroyed together.
+
+Even if our application didn't happen to be so complex and we could live with a single container, Kubernetes
+
+still requires you to create pods, but this is good in the long run as your application is now equipped
+
+for architectural changes and scale in the future.
+
+However, also note that multi-part containers are a rare use case, and we're going to stick to single
+
+containers per pod in this course.
+
+Let us now look at how to deploy pods.
+
+Earlier we learned about the Kube control run command.
+![Document](../Images/doc51.png)
+What this command really does is it deploys a Docker container by creating a pod.
+
+So it first creates a pod automatically and deploys an instance of the nginx docker image.
+
+But where does it get the application image from?
+
+For that you need to specify the image name using the image parameter.
+
+The application image.
+
+In this case the nginx image is downloaded from the Docker Hub repository Docker Hub.
+
+As we discussed, is a public repository where Docker images of various applications are stored.
+
+You could configure Kubernetes to pull the image from the public Docker hub or a private repository
+
+within the organization.
+
+Now that we have a pod created, how do we see the list of pods available?
+![Document](../Images/doc52.png)
+The Kube control get pods command helps us see the list of pods in our cluster.
+
+In this case, we see the pod is in a container creating state and soon changes to a running state when
+
+it is actually running.
+
+Also, remember that we haven't really talked about the concepts on how a user can access the nginx
+
+web server, and so in the current state, we haven't made the web server accessible to external users.
+
+You can access it internally from the node.
+
+But for now we will just see how to deploy a pod.
+
+And later in a later lecture, once we learn about networking and services, we will get to know how
+
+to make this service accessible to end users.
+
+
+------------------------------------------------------------------
+# Slide Demo Lecture
+
+
+
+In this demo, we're going to deploy a pod in our minikube cluster.
+
+As we discussed, a pod is the most basic and the smallest unit in Kubernetes.
+
+So we will use the kubectl command line utility to interact with the Kubernetes cluster.
+Now if you followed our demo earlier of deploying a cluster using minikube, then you already have the
+
+kubectl command line utility configured to work with the cluster.
+
+We will run the command kubectl run nginx, which is the name of the pod dash dash image uh equals to
+
+nginx.
+
+Now here is where we specify the Docker image to be used.
+
+While the pod name could be anything, the image name has to be the name of an image available at Docker
+
+Hub or any other container registry.
+
+You can additionally specify a tag for the image name or a different address to an image hosted on another
+
+registry.
+If the image is hosted, uh, in a place that's, uh, other than Docker Hub.
+
+Okay, so once we run this command, we see a pod by the name nginx.
+
+Um has been created and you can check the status using the kubectl get pods command.
+
+Now here you can see the column name which is nginx.
+
+The status is running and we see that the.
+
+There is a ready column which shows the number of containers in a ready state.
+
+We also see if the container has restarted since it was created.
+
+And how long has the pod been running?
+
+We can get more information related to the pod by running the kubectl describe pod nginx command, and
+
+you'll notice that this provides a lot more information as compared to the get command.
+
+So for example, the name of the pod is nginx.
+
+It shows any labels that has been assigned to this pod.
+
+So this was created by default when we ran the run command.
+
+It shows when it was started.
+
+It shows the node that is uh, that it is assigned to along with the IP address of the node.
+
+So in this case, we just have a single node cluster set up using minikube.
+
+And the node name is minikube.
+
+And that is the IP address of this worker node.
+
+Secondly it also shows the IP address of the pod itself.
+
+So in this case the pod is assigned an IP of 172.16.0.3.
+
+We'll cover more about the IP addresses of the pod and later in the networking section.
+
+Now moving on.
+
+We can see that it displays information related to the container.
+
+So we know that there is a single container which uses the image nginx.
+
+If there were multiple containers we would list them here.
+
+I'll explain about creating a pod with multiple containers in the upcoming lectures.
+![Document](../Images/doc53.png)
+But here we can also see that the nginx image was pulled from Docker Hub.
+
+And if you scroll all the way to the bottom, you'll see additional information called events.
+
+And here you see the list of events that occurred since the pod was created.
+
+And it went through multiple stages before it started.
+
+We can see that the pod was assigned to the minikube node.
+
+If there were multiple nodes, you would see which node the pod was assigned to here.
+
+And then it entered the pulling phase where the nginx image was pulled down from Docker Hub successfully.
+
+And then the container called nginx was created and started.
+
+Now there is one other command that we can use to check the status of the pod, and that is the same
+
+command as before.
+![Document](../Images/doc3.png)
+The kubectl get pods command, but with the dash wide option.
+
+And this provides additional information such as the node where the pod is running and the IP address
+
+of the pod as well.
+
+So this is the internal IP address of the pod itself.
+
+So each pod gets an internal IP of its own within the within the Kubernetes cluster.
+
+Um but more on that later.
+
+That was a quick demonstration on how to run a pod in minikube environment.
+
+![Document](../Images/doc55.png)
+
+![Document](../Images/doc56.png)
+
+Kubernetes Concepts – https://kubernetes.io/docs/concepts/
+
+Pod Overview- https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/
+![Document](../Images/doc57.png)
+![Document](../Images/doc58.png)
+
