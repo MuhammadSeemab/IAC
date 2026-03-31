@@ -97,7 +97,9 @@ All they needed to do was to make sure they had Docker installed on their system
 ## Containers are completely isolated environments. As in they can have their own processes or services, their own network interfaces, their own mounts,
 just like virtual machines, except they all share the same OS kernel. 
 
+
 We will look at what that means in a bit, but it's also important to note that containers are not new
 
 with Docker.
+![Logo](Images/doc1.png)
 
