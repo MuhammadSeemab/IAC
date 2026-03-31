@@ -101,4 +101,4 @@ just like virtual machines, except they all share the same OS kernel.
 We will look at what that means in a bit, but it's also important to note that containers are not new
 
 with Docker.
-![Logo](Images/doc1.png)
+![Document](../Images/doc1.png)
