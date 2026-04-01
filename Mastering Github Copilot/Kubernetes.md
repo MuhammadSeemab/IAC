@@ -1583,4 +1583,79 @@ Pod Overview- https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/
 ![Document](../Images/doc58.png)
 
 ![Document](../Images/doc59.png)
+-------------------------------------------------------------
+
+# Slide YAML
+# In this lecture, we take a look at what YAML files are.
+
+If you are familiar with YAML already, feel free to skip this section and head over to the next section.
+
+# If you have not worked with YAML in the past, I would highly recommend going through this because the
+
+rest of the course depends entirely on YAML.
+
+**A YAML file is used to represent data, in this case configuration data.
+**
+Here is a quick comparison of a sample data in three different formats.
+![Document](../Images/doc60.png)
+The one on the left is XML, where we display a list of servers and their information.
+
+The same data is represented in JSON format in the middle.
+
+And finally in YAML format to the right.
+
+Take a minute to compare the three formats.
+
+Let's take a close look at YAML.
+
+If you take the data in its simplest form, such as key value pair, this is how you would define it
+
+in YAML.
+
+Key and value separated by a colon.
+
+The keys are fruit, vegetable, liquid and meat and the values are apple, carrot, water, and chicken.
+Remember you must have a space followed by colon, differentiating the key and the value.
+
+Let's take a look at how an array is represented.
+
+We would like to list some fruits and vegetables.
+
+We would say fruits followed by a colon.
+
+On the next line, enter each item with a dash in the front.
+
+The dash indicates that it's an element of an array.
+
+How about a dictionary?
+
+A dictionary is a set of properties grouped together under an item.
+
+Here we try to represent nutrition information of two fruits.
+
+The calories, fat and carbs are are different for each fruit.
+![Document](../Images/doc61.png)
+Notice the blank space before each item.
+
+You must have equal number of blank spaces before the properties of a single item.
+
+So they are all aligned together.
+
+Let's take a closer look at spaces in YAML.
+
+Here we have a dictionary representing the nutrition information of banana.
+
+The total amount of calories, fat, and carbs are shown.
+
+Notice the number of spaces before each property that indicates these key value pairs fall within banana.
+
+
+
+
+
+
+
+
+
+
 
