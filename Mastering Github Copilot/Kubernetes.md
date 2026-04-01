@@ -1646,8 +1646,119 @@ Let's take a closer look at spaces in YAML.
 Here we have a dictionary representing the nutrition information of banana.
 
 The total amount of calories, fat, and carbs are shown.
+![Document](../Images/doc62.png)
+Notice the number of spaces before each property that indicates these key value pairs fall within banana.
 
 Notice the number of spaces before each property that indicates these key value pairs fall within banana.
+
+But what if we had extra spaces for fat and carbs?
+
+Then they will fall under calories and thus become properties of calories, which doesn't make any sense.
+
+This will result in a syntax error, which will tell you that mapping values are not allowed here because
+
+calories already have a value set, which is 105.
+
+You can either set a direct value or a hash map.
+
+You cannot have both.
+
+So the number of spaces before each property is key.
+![Document](../Images/doc63.png)
+
+In YAML, you must ensure they are in the right form to represent your data correctly.
+
+Let's take it to another level.
+
+You can have lists containing dictionaries containing lists.
+![Document](../Images/doc64.png)
+
+In this case, I have a list of fruits and the elements of the list are banana and grape, but each
+
+of these elements are further dictionaries containing nutrition information.
+
+A lot of students new to YAML have reached out to me asking when to use a dictionary or a list.
+
+So let me explain this a little bit better.
+
+First of all, it is important to understand that all of what we discussed so far, such as XML, JSON,
+
+or YAML are used to represent data.
+
+Or it could be data about an automobile manufacturing company and all of its cars and its details.
+
+It could be anything.
+
+Let's take an example of a car.
+
+A car is a single object, and it has properties such as color, model, transmission, and price.
+
+**To store different information or properties of a single object, we use a dictionary.**
+
+In this simple dictionary, I have properties of the car defined in a key value format.
+
+This may not be as simple as this.
+
+For example, in case we need to split the model further into model name and make year, you could then
+
+represent this as a dictionary within another dictionary.
+![Document](../Images/doc65.png)
+In this case, the single value of model is now replaced by a small dictionary with two properties name
+
+and year.
+
+So this is dictionary within another dictionary.
+
+Let's say we would like to store the name of six cars.
+
+**The names are formed by the color and the model of the car.
+
+To store this we would use a list or an array as it is multiple items of the same type of object.
+
+Since we are only storing the names, we have a simple list of strings.
+**
+What if we would like to store all information about each car?
+![Document](../Images/doc66.png)
+
+Everything that we listed before, such as the color, model, transition and price.
+
+# We will then modify the array from a list of strings to a list of dictionaries.
+
+So we expand each item in the array and replace the name with the dictionary we built earlier.
+
+This way, we are able to represent all information about multiple cars in a single YAML file using
+
+a list of dictionaries.
+![Document](../Images/doc67.png)
+
+So that's the difference between dictionary list and list of dictionaries.
+
+I hope you understood the difference between the three and when to use each of these.
+
+Before we head over to exercises, let's take a look at some key notes.
+
+**Dictionary is an unordered collection, whereas lists are ordered collection.
+**
+So what does that mean?
+
+The two dictionaries that you see here have the same properties for banana.
+![Document](../Images/doc68.png)
+
+However, you can see that the order of properties fat and carbs do not match.
+
+In the first dictionary, fat is defined before carbs, and in the second dictionary carbs comes first,
+
+followed by fat.
+
+But that doesn't really matter.
+
+The properties can be defined in any order, but the two dictionaries will still be the same as long
+
+as the values of each property match.
+
+This is not the same for lists or arrays.
+
+Arrays are ordered collection, so the order of items matter.
 
 
 
