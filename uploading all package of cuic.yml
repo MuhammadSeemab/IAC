@@ -1,0 +1,203 @@
+#####
+
+#i implement the Path of tgz file
+#"C:\Users\Public"
+####
+ i used this script to download the tgz file
+# Set TLS and ignore SSL errors
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
+[System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $true }
+
+# Nexus credentials and repository
+$username = "admin"
+$password = "f!GJ#V0W5Fcdc!z9cIh4"
+$repo = "npm"
+
+# Download all .tgz files from all pages
+$continuationToken = $null
+do {
+    $url = "https://nexus.id-ware.com/service/rest/v1/components?repository=$repo"
+    if ($continuationToken) {
+        $url += "&continuationToken=$continuationToken"
+    }
+    $response = & curl.exe -k -u "$($username):$($password)" -H "accept: application/json" $url
+    $json = $response | ConvertFrom-Json
+
+    foreach ($component in $json.items) {
+        foreach ($asset in $component.assets) {
+            if ($asset.downloadUrl -like "*.tgz") {
+                $fileName = Split-Path $asset.downloadUrl -Leaf
+                if (-not (Test-Path $fileName)) {
+                    Write-Host "Downloading $fileName"
+                    & curl.exe -k -u "$($username):$($password)" -O $asset.downloadUrl
+                } else {
+                    Write-Host "$fileName already exists, skipping."
+                }
+            }
+        }
+    }
+    $continuationToken = $json.continuationToken
+} while ($continuationToken)
+
+
+
+
+
+
+# GitHub Package Registry info
+$githubRegistry = "https://npm.id-ware.ghe.com/"
+$githubToken = "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"
+$orgScope = "@id-ware-group"
+$repoUrl = "https://id-ware.ghe.com/ID-Ware-Group/CORE-idware.core.angular"
+
+
+# Update each .tgz file's package.json and repack
+Get-ChildItem *.tgz | ForEach-Object {
+    $tgz = $_.FullName
+    $tmpDir = Join-Path $env:TEMP ("tgz_update_" + [guid]::NewGuid())
+    Remove-Item $tmpDir -Recurse -Force -ErrorAction SilentlyContinue
+    New-Item -ItemType Directory -Path $tmpDir | Out-Null
+
+    # Extract tarball
+    tar -xzf $tgz -C $tmpDir
+
+    # Get package name and version from filename (supports pre-release)
+    $fileBase = Split-Path $tgz -Leaf
+    if ($fileBase -match '(.+)-(\d+\.\d+\.\d+(?:-[\w\.\-]+)?)\.tgz') {
+        $originalName = $Matches[1]
+        $versionFromFile = $Matches[2]
+    } else {
+        Write-Host "Filename $tgz does not match expected pattern."
+        Remove-Item $tmpDir -Recurse -Force
+        return
+    }
+
+    # Update package.json
+    $pkgJsonPath = Join-Path $tmpDir "package\package.json"
+    if (-Not (Test-Path $pkgJsonPath)) {
+        Write-Host "package.json not found in $tgz, skipping..."
+        Remove-Item $tmpDir -Recurse -Force
+        return
+    }
+
+    $pkg = Get-Content $pkgJsonPath | ConvertFrom-Json
+    $pkg.name = "$orgScope/$originalName"
+    $pkg.version = $versionFromFile
+    $pkg.PSObject.Properties.Remove("publishConfig")
+    $pkg | Add-Member -MemberType NoteProperty -Name "publishConfig" -Value @{ registry = $githubRegistry } -Force
+    $repoObj = [PSCustomObject]@{
+        type = "git"
+        url  = $repoUrl
+    }
+    $pkg | Add-Member -MemberType NoteProperty -Name "repository" -Value $repoObj -Force
+    $pkg | ConvertTo-Json -Depth 10 | Set-Content $pkgJsonPath -Encoding UTF8
+
+    # Repack tarball and overwrite original
+    Push-Location $tmpDir
+    tar -czf $tgz package
+    Pop-Location
+
+    # Clean up
+    Remove-Item $tmpDir -Recurse -Force
+}
+
+# Publish each .tgz file to GitHub Packages
+Get-ChildItem *.tgz | ForEach-Object {
+    Write-Host "Publishing $($_.Name) to GitHub Packages..."
+    npm publish $_.FullName --registry $githubRegistry
+}
+
+
+######################################################
+# New script to handle a BOM Format
+
+function Remove-BOM {
+    param([string]$FilePath)
+    
+    if (Test-Path $FilePath) {
+        # Read file as bytes
+        $bytes = [System.IO.File]::ReadAllBytes($FilePath)
+        
+        # Check for UTF-8 BOM (EF BB BF)
+        if ($bytes.Length -ge 3 -and $bytes[0] -eq 0xEF -and $bytes[1] -eq 0xBB -and $bytes[2] -eq 0xBF) {
+            Write-Host "  → Removing UTF-8 BOM from $(Split-Path $FilePath -Leaf)"
+            # Write file without BOM
+            $content = [System.IO.File]::ReadAllText($FilePath)
+            $contentWithoutBOM = $content.TrimStart([char]0xFEFF)
+            [System.IO.File]::WriteAllText($FilePath, $contentWithoutBOM, [System.Text.UTF8Encoding]::new($false))
+        }
+    }
+}
+
+# Update each .tgz file's package.json and repack
+Get-ChildItem *.tgz | ForEach-Object {
+    $tgz = $_.FullName
+    $tmpDir = Join-Path $env:TEMP ("tgz_update_" + [guid]::NewGuid())
+    Remove-Item $tmpDir -Recurse -Force -ErrorAction SilentlyContinue
+    New-Item -ItemType Directory -Path $tmpDir | Out-Null
+
+    Write-Host "`nProcessing $($_.Name)..."
+    
+    # Extract tarball
+    tar -xzf $tgz -C $tmpDir
+
+    # Get package name and version from filename (supports pre-release)
+    $fileBase = Split-Path $tgz -Leaf
+    if ($fileBase -match '(.+)-(\d+\.\d+\.\d+(?:-[\w\.\-]+)?)\.tgz') {
+        $originalName = $Matches[1]
+        $versionFromFile = $Matches[2]
+    } else {
+        Write-Host "  ✗ Filename $tgz does not match expected pattern."
+        Remove-Item $tmpDir -Recurse -Force
+        return
+    }
+
+    # Update package.json
+    $pkgJsonPath = Join-Path $tmpDir "package\package.json"
+    if (-Not (Test-Path $pkgJsonPath)) {
+        Write-Host "  ✗ package.json not found in $tgz, skipping..."
+        Remove-Item $tmpDir -Recurse -Force
+        return
+    }
+
+    # Remove BOM BEFORE parsing JSON
+    Remove-BOM -FilePath $pkgJsonPath
+
+    # Now parse and update
+    $pkg = Get-Content $pkgJsonPath -Raw | ConvertFrom-Json
+    $pkg.name = "$orgScope/$originalName"
+    $pkg.version = $versionFromFile
+    
+    # Remove and re-add publishConfig
+    $pkg.PSObject.Properties.Remove("publishConfig")
+    $pkg | Add-Member -MemberType NoteProperty -Name "publishConfig" -Value @{ registry = $githubRegistry } -Force
+    
+    # Add repository info
+    $repoObj = [PSCustomObject]@{
+        type = "git"
+        url  = $repoUrl
+    }
+    $pkg | Add-Member -MemberType NoteProperty -Name "repository" -Value $repoObj -Force
+    
+    # Save without BOM
+    $jsonContent = $pkg | ConvertTo-Json -Depth 10
+    [System.IO.File]::WriteAllText($pkgJsonPath, $jsonContent, [System.Text.UTF8Encoding]::new($false))
+    
+    Write-Host "  ✓ Updated package.json: $orgScope/$originalName@$versionFromFile"
+
+    # Repack tarball and overwrite original
+    Push-Location $tmpDir
+    tar -czf $tgz package
+    Pop-Location
+
+    # Clean up
+    Remove-Item $tmpDir -Recurse -Force
+}
+
+Write-Host "`n========================================`n"
+
+# Publish each .tgz file to GitHub Packages
+Get-ChildItem *.tgz | ForEach-Object {
+    Write-Host "Publishing $($_.Name) to GitHub Packages..."
+    npm publish $_.FullName --registry $githubRegistry
+}
