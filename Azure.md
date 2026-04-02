@@ -225,3 +225,48 @@ Interview-style answer ⭐
 **GatewaySubnet is a mandatory, dedicated subnet inside a VNet that hosts the Virtual Network Gateway. The Virtual Network Gateway is the actual Azure service that provides secure VPN or hybrid connectivity. 
 The subnet provides the space; the gateway provides the functionality.
 **
+--------------------------------------------------------------------
+
+# In Azure App Service:
+VNet integration is only for outbound traffic (egress), Not inbound
+
+❌ What this means
+
+Even if:
+
+Frontend WebApp → Subnet A
+Backend API WebApp → Subnet B
+
+👉 They CANNOT talk to each other privately just because of VNet Integration
+
+Why?
+
+Because:
+
+WebApps are still public services
+VNet Integration only allows:
+WebApp → Database (private endpoint)
+WebApp → internal services
+
+👉 It does NOT make the WebApp itself private
+
+
+✅ Option 1 (Best Practice): Private Endpoint for API
+🔹 What you do:
+Keep frontend WebApp as is
+Create Private Endpoint for API WebApp
+
+Create Private DNS zone:
+
+privatelink.azurewebsites.net
+Link it to your VNet
+🔹 Result:
+API WebApp gets private IP
+Frontend resolves API URL → private IP
+Communication happens inside VNet ✅
+🔹 Flow becomes:
+Frontend WebApp
+   ↓
+Private DNS resolves API → Private IP
+   ↓
+API WebApp (via Private Endpoint)
