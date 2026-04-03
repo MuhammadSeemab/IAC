@@ -1,0 +1,333 @@
+name: .NET Build
+
+on:
+  workflow_call:
+    inputs:
+      configuration:
+        description: 'Build configuration'
+        required: false
+        type: string
+        default: 'Release'
+      solution:
+        description: 'Solution file'
+        required: false
+        type: string
+        default: 'OCMS.sln'
+      runner-group:
+        description: 'Default Group'
+        required: false
+        type: string
+        default: 'IDWG-RG-01'
+      working-directory:
+        description: 'Working directory for build operations'
+        required: false
+        type: string
+        default: '.'
+      artifact-prefix:
+        description: 'Prefix for artifact name'
+        required: true
+        type: string
+        default: 'OCMS'    
+    outputs:
+      internaltest-artifact-name:
+        description: 'Name of the InternalTest artifact'
+        value: ${{ jobs.build.outputs.internaltest_artifact_name }}
+      generic-artifact-name:
+        description: 'Name of the Generic artifact'
+        value: ${{ jobs.build.outputs.generic_artifact_name }}  
+
+jobs:
+  build:
+    runs-on: windows-latest
+      #group: ${{ inputs.runner-group }}
+      #labels: windows-runner-02
+    outputs:
+      internaltest_artifact_name: ${{ steps.artifact_info.outputs.internaltest_artifact_name }}
+      generic_artifact_name: ${{ steps.artifact_info.outputs.generic_artifact_name }} 
+      devops_ref: ${{ steps.resolve_ref.outputs.ref }}
+      
+
+    steps:
+      - name: Resolve DevOps.Common ref
+        id: resolve_ref
+        shell: pwsh
+        run: |
+          $apiUrl = "${{ github.api_url }}/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          $headers = @{
+            "Authorization" = "Bearer ${{ github.token }}"
+            "Accept" = "application/vnd.github+json"
+          }
+          
+          $response = Invoke-RestMethod -Uri $apiUrl -Headers $headers
+          $reusableWorkflow = $response.referenced_workflows | Where-Object { 
+            $_.path -like "*.github/workflows/dotnet-build-ocms.yml*" 
+          } | Select-Object -First 1
+          
+          if (-not $reusableWorkflow) {
+            Write-Error "Could not find reusable workflow in referenced_workflows"
+            exit 1
+          }
+          
+          Write-Host "Using ref: $($reusableWorkflow.ref)"
+          "ref=$($reusableWorkflow.ref)" | Out-File -FilePath "$env:GITHUB_OUTPUT" -Append -Encoding utf8
+
+      - name: Show Runner Specifications
+        shell: pwsh
+        run: |
+          Write-Host "========== RUNNER SPECIFICATIONS =========="
+          Write-Host "`nHostname:" 
+          hostname
+          
+          Write-Host "`nOS Information:"
+          Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, OSArchitecture, BuildNumber | Format-List
+          
+          Write-Host "`nCPU Information:"
+          Get-CimInstance Win32_Processor | Select-Object Name, NumberOfCores, NumberOfLogicalProcessors | Format-List
+          
+          Write-Host "`nMemory (RAM):"
+          $mem = Get-CimInstance Win32_ComputerSystem
+          $totalRAM = [math]::Round($mem.TotalPhysicalMemory / 1GB, 2)
+          Write-Host "Total RAM: $totalRAM GB"
+          
+          Write-Host "`nDisk Space:"
+          Get-PSDrive C | Select-Object @{Name="Total(GB)";Expression={[math]::Round($_.Used/1GB + $_.Free/1GB, 2)}}, @{Name="Used(GB)";Expression={[math]::Round($_.Used/1GB, 2)}}, @{Name="Free(GB)";Expression={[math]::Round($_.Free/1GB, 2)}} | Format-List
+          
+          Write-Host "`nRunner Environment:"
+          Write-Host "Runner OS: ${{ runner.os }}"
+          Write-Host "Runner Name: ${{ runner.name }}"
+          Write-Host "Runner Arch: ${{ runner.arch }}"
+          Write-Host "==========================================="
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Download nuget.exe
+        run: Invoke-WebRequest -Uri https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -OutFile nuget.exe
+
+      #- name: Show runner network info
+        #run:  curl ifconfig.me
+
+      #- name: Show private IPs on runner
+        #shell: pwsh
+        #run: Get-NetIPAddress | Where-Object {$_.AddressFamily -eq "IPv4"}
+
+      #- name: Test TCP with PowerShell (Windows)
+        #shell: pwsh
+        #run: Test-NetConnection -ComputerName 13.81.107.119 -Port 8172
+
+      - name: Remove the Old Nuget Package
+        run: .\nuget.exe sources Remove -Name "OCMS 3.0.2" -ConfigFile .\NuGet.config
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-  
+
+      - name: Restore NuGet Packages from Github Packages
+        env:
+          NUGET_USERNAME: ${{ github.actor }}
+          NUGET_PASSWORD: ${{ secrets.NUGET_PASSWORD }}
+        run: .\nuget.exe sources Add -Name github -Source https://nuget.id-ware.ghe.com/Id-Ware-Group/index.json -UserName $env:NUGET_USERNAME -Password $env:NUGET_PASSWORD -StorePasswordInClearText -ConfigFile .\NuGet.config
+
+      - name: Restore NuGet packages
+        run: .\nuget.exe restore ${{ inputs.solution }} -ConfigFile .\NuGet.config
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build solution
+        run: msbuild .\${{ inputs.solution }} /t:Build /p:Configuration=${{ inputs.configuration }} /p:Platform="Any CPU" /nologo /verbosity:minimal | findstr /i "error"
+
+      #- name: Find VSTest.Console.exe
+        #id: find_vstest
+        #shell: pwsh
+        #run: |
+          #$VsTestPath = Get-ChildItem "C:\Program Files*\Microsoft Visual Studio\*\*\vstest.console.exe" -Recurse -ErrorAction SilentlyContinue | Sort-Object -Descending | Select-Object -First 1 | % { $_.FullName }
+          #if (-not $VsTestPath) { Write-Host "No vstest.console.exe found!"; exit 1 }
+          #Write-Output "VSTEST_PATH=$VsTestPath" >> $env:GITHUB_ENV
+
+      #- name:  Run Test
+        #shell: pwsh
+        #run: |
+          #cd Tests
+          #.\executeUnitTests.bat $env:VSTEST_PATH
+
+      - name: Free Disk Space
+        shell: pwsh
+        run: |
+          Write-Host "Disk space before cleanup:"
+          Get-PSDrive C | Select-Object @{Name="Used(GB)";Expression={[math]::Round($_.Used/1GB, 2)}}, @{Name="Free(GB)";Expression={[math]::Round($_.Free/1GB, 2)}}, @{Name="Total(GB)";Expression={[math]::Round(($_.Used + $_.Free)/1GB, 2)}} | Format-Table -AutoSize
+          
+          # Clean temp files
+          Remove-Item -Path "$env:TEMP\*" -Recurse -Force -ErrorAction SilentlyContinue
+          
+          # Clean NuGet cache
+          dotnet nuget locals all --clear
+          
+          # Remove Android SDK (often 10+ GB on GitHub runners)
+          if (Test-Path "C:\Android") {
+            Write-Host "Removing Android SDK..."
+            Remove-Item "C:\Android" -Recurse -Force -ErrorAction SilentlyContinue
+          }
+          
+          # Remove CodeQL (can be several GB)
+           if (Test-Path "C:\hostedtoolcache\CodeQL") {
+            Write-Host "Removing CodeQL..."
+            Remove-Item "C:\hostedtoolcache\CodeQL" -Recurse -Force -ErrorAction SilentlyContinue
+           }
+          
+          # Clean Docker images and data
+           docker system prune -a -f --volumes 2>$null
+          
+          # Clean previous build artifacts
+          if (Test-Path "Tools\ReleaseBuilder\bin\Release\OCMS_*.zip") {
+            Remove-Item "Tools\ReleaseBuilder\bin\Release\OCMS_*.zip" -Force -ErrorAction SilentlyContinue
+          }
+          
+          Write-Host "Disk space after cleanup:"
+          Get-PSDrive C | Select-Object @{Name="Used(GB)";Expression={[math]::Round($_.Used/1GB, 2)}}, @{Name="Free(GB)";Expression={[math]::Round($_.Free/1GB, 2)}}, @{Name="Total(GB)";Expression={[math]::Round(($_.Used + $_.Free)/1GB, 2)}} | Format-Table -AutoSize
+          
+      - name: Release Builder and Artifact Logic
+        shell: pwsh
+        run: |
+          $branch= "${{ github.ref_name }}"
+          $buildNumber = "${{github.run_number}}"
+          $sourcePath = Convert-Path "Tools\ReleaseBuilder\bin\Release"
+          cd $sourcePath
+
+          if ($branch -eq 'develop') {  
+            .\IDware.OCMS.ReleaseBuilder.exe InternalTest,Generic $buildNumber $branch
+          } elseif ($branch -like 'release*') {
+            $branch = $branch.Replace('/', '-')
+            .\executeReleaseBuilder.bat $buildNumber $branch  
+          }
+
+      #- name: Rename the Artifacts
+        
+        #shell: pwsh
+        #run: |
+          #$branchName = "${{github.ref_name }}".Replace('/','-')
+          #$searchPath = "Tools\ReleaseBuilder\bin\Release"
+          #$internalTest = Get-ChildItem "$searchPath\OCMS_*_InternalTest.zip" -ErrorAction SilentlyContinue
+             #$internalTest = Get-ChildItem "Tools\ReleaseBuilder\bin\Release\OCMS_*_InternalTest.zip" -ErrorAction SilentlyContinue
+          #if ($internalTest) {
+            #Rename-Item -Path $internalTest.FullName -NewName "OCMS_InternalTest_${branchName}.zip"
+          #}
+          #$generic = Get-ChildItem "Tools\ReleaseBuilder\bin\Release\OCMS_*_Generic.zip" -ErrorAction SilentlyContinue
+          #if ($generic) {
+            #Rename-Item -Path $generic.FullName -NewName "OCMS_Generic_${branchName}.zip"
+          #}
+      - name:  Rename the Artifacts
+        id: artifact_info
+        shell: pwsh
+        run: |
+          $artifactPrefix = '${{ inputs.artifact-prefix }}'
+          $branchName = "${{ github.ref_name }}".Replace('/', '-') # replace slash with dash (matching ReleaseBuilder)
+          $searchPath = "Tools\ReleaseBuilder\bin\Release"
+          
+          Write-Host "Branch name for artifacts: $branchName"
+          Write-Host "Searching in: $searchPath"
+          Write-Host "Files found:"
+          Get-ChildItem "$searchPath\OCMS_*.zip" | ForEach-Object { Write-Host "  $($_.Name)" }
+          
+          $internalTest = Get-ChildItem "$searchPath\OCMS_*_InternalTest.zip" -ErrorAction SilentlyContinue
+          if ($internalTest) {
+            $newName = "${artifactPrefix}_InternalTest_${branchName}.zip"
+            Write-Host "Renaming InternalTest: $($internalTest.Name) -> $newName"
+            Rename-Item -Path $internalTest.FullName -NewName $newName
+            echo "internaltest_artifact_name=$newName" >> $env:GITHUB_OUTPUT
+          }
+
+          $generic = Get-ChildItem "$searchPath\OCMS_*_Generic.zip" -ErrorAction SilentlyContinue
+          if ($generic) {
+            $newName = "${artifactPrefix}_Generic_${branchName}.zip"
+            Write-Host "Renaming Generic: $($generic.Name) -> $newName"
+            Rename-Item -Path $generic.FullName -NewName $newName
+            echo "generic_artifact_name=$newName" >> $env:GITHUB_OUTPUT
+          }
+          
+          Write-Host "Final files:"
+          Get-ChildItem "$searchPath\OCMS_*.zip" | ForEach-Object { Write-Host "  $($_.Name)" }
+        env:
+          artifact-prefix: OCMS
+
+      - name: Print the artifact name
+        shell: pwsh
+        run: |
+          Write-Host "Artifact name is: ${{ steps.artifact_info.outputs.artifact_name }}"      
+
+      - name: Add branch metadata
+        working-directory: ${{ inputs.working-directory }}
+        shell: pwsh
+        run: |
+          $branch = "${{ github.ref_name }}"
+          $runNumber = "${{ github.run_number }}"
+          $timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss UTC")
+          $artifactPath = "Tools\ReleaseBuilder\bin\Release"
+          "$branch $runNumber $timestamp" | Out-File -FilePath "$artifactPath\_branch_info.txt" -Encoding UTF8
+      - name: Set retention days
+        id: retention_days
+        shell: pwsh
+        run: |
+          if ("${{ github.ref }}" -eq "refs/heads/develop") {
+            echo "days=7" >> $env:GITHUB_OUTPUT
+          } else {
+            echo "days=60" >> $env:GITHUB_OUTPUT
+          }
+
+        
+      - name: Upload InternalTest Artifacts
+        if: github.ref_name == 'develop' || startsWith(github.ref_name, 'release/')
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.artifact_info.outputs.internaltest_artifact_name }}
+          path: Tools/ReleaseBuilder/bin/Release/OCMS_InternalTest_*.zip
+          
+  
+      - name: Upload Generic Artifacts
+        if: github.ref_name == 'develop' || startsWith(github.ref_name, 'release/')
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.artifact_info.outputs.generic_artifact_name }}
+          path: Tools/ReleaseBuilder/bin/Release/OCMS_Generic_*.zip
+
+
+
+      - name: Checkout DevOps.Common for scripts
+        uses: actions/checkout@v6
+        with:
+          repository: ID-Ware-Group/IDware.DevOps.Common
+          ref: ${{ steps.resolve_ref.outputs.ref }}
+          token: ${{ secrets.GHE_PAT }}
+          path: .devops-scripts
+
+      - name: Install Python dependencies
+        shell: pwsh
+        run: |
+          Write-Host "Installing Python requests module..."
+          pip install requests
+
+      - name: Upload artifacts to SharePoint Online
+        #if: false  # Step disabled - remove this line to re-enable migrations
+        if: startsWith(github.ref_name, 'release/')
+        shell: pwsh
+        env:
+            TENANT_ID: ${{ secrets.SHAREPOINT_TENANT_ID }}
+            CLIENT_ID: ${{ secrets.SHAREPOINT_CLIENT_ID }}
+            CLIENT_SECRET: ${{ secrets.SHAREPOINT_CLIENT_SECRET }}
+            #SITE_ID: ${{ secrets.SHAREPOINT_SITE_ID }}
+            #DRIVE_ID: ${{ secrets.SHAREPOINT_DRIVE_ID }}
+            SITE_ID: ${{ secrets.SHAREPOINT_OCMS_SITE_ID }}
+            DRIVE_ID: ${{ secrets.SHAREPOINT_OCMS_DRIVE_ID }}
+        run: |
+          $branch = "${{ github.ref_name }}".Replace('/', '-')
+          $buildNumber = "${{ github.run_number }}"
+          $folderName = "OCMS_${branch}_$buildNumber"
+          #$env:FOLDER_PATH = "General/Internal Releases/Solution Packages (Pipelines Build)/$folderName"
+          $env:FOLDER_PATH = "RC Announcement/GitHub-Pipeline-Releases/$folderName"
+          #if: startsWith(github.ref_name, 'release/')
+          Write-Host "Uploading artifacts to SharePoint: $env:FOLDER_PATH"
+          python .devops-scripts/.github/scripts/upload_to_sharepoint.py
