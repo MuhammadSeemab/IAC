@@ -1944,11 +1944,12 @@ So how exactly does Docker store the files of an image and a container?
 
 To understand that, we need to understand Dockers layered architecture.
 
-Let's quickly recap something we learned when Docker builds images, it builds these in a layered architecture.
+# Let's quickly recap something we learned when Docker builds images, it builds these in a layered architecture.
 
-Each line of instruction in the Docker file creates a new layer in the Docker image, with just the
+# Each line of instruction in the Docker file creates a new layer in the Docker image, with just the
 
 changes from the previous layer.
+![Document](../Images/cka3.jpeg)
 
 For example, the first layer is a base ubuntu distribution, followed by the second instruction that
 
@@ -1993,6 +1994,7 @@ code, such as the app dot Pi.
 In this case, Docker simply reuses all the previous layers from cache and rebuilds the application
 
 image by updating the latest source code, thus saving us a lot of time during rebuilds and updates.
+![Document](../Images/cka2.jpeg)
 
 Let's rearrange the layers bottom up so we can understand it better.
 
@@ -2139,34 +2141,33 @@ And so it will create a container and mount the folder to the container.
 For example, the previous command can be written with the dash mount option as this using the type,
 
 source and target options.
+![Document](../Images/cka.jpeg)
+# The type in this case is bind.
 
-The type in this case is bind.
-
-The source is the location on my host, and target is the location on my container.
-
+**The source is the location on my host, and target is the location on my container.
+**
 So who is responsible for doing all of these operations?
 
-Maintaining the layered architecture, creating a writable layer, moving files across layers to enable
+# Maintaining the layered architecture, creating a writable layer, moving files across layers to enable copy and write, etc..
 
-copy and write, etc..
+ # It's the storage drivers.
 
-It's the storage drivers.
-
-So Docker uses storage drivers to enable layered architecture.
+# So Docker uses storage drivers to enable layered architecture.
+![Document](../Images/cka1.jpeg)
 
 Some of the common storage drivers are UFS btrfs, DFS Device Mapper, Overlay and Overlay.
 
 Two.
 
-The selection of the storage driver depends on the underlying OS being used.
+# The selection of the storage driver depends on the underlying OS being used.
 
-For example, with ubuntu, the default storage driver is UFS, whereas the storage driver is not available
+# For example, with ubuntu, the default storage driver is UFS, whereas the storage driver is not available
 
 on other operating systems like fedora or CentOS.
 
 In that case, Device Mapper may be a better option.
 
-Docker will choose the best storage driver available automatically based on the operating system.
+# Docker will choose the best storage driver available automatically based on the operating system.
 
 The different storage drivers also provide different performance and stability characteristics, so
 
@@ -2179,8 +2180,52 @@ documentation.
 For now, that is all from the Docker architecture concepts.
 
 See you in the next lecture.
+------------------------------------------
+# New Slide Storage Driver
 
-![Document](../Images/cka.jpeg)
+Okay, so in the previous lecture we discussed about storage drivers.
+
+# Storage drivers help manage storage on images and containers.
+
+We also briefly touched upon volumes in the previous lecture.
+
+# We learned that if you want to persist storage, you must create volumes.
+
+# Remember that volumes are not handled by storage drivers.
+
+# Volumes are handled by volume driver plugins.
+
+# The default volume driver plugin is local.
+
+# The local volume plugin helps create a volume on the Docker host and store its data under the var lib
+
+docker volumes directory.
+
+# There are many other volume driver plugins that allow you to create a volume on third party solutions
+![Document](../Images/cka4.jpeg)
+
+# like Azure File Storage, convoy, DigitalOcean, Block Storage Locker, Google Compute Persistent Disks, Glusterfs, NetApp X-ray Portworx, and VMware vSphere storage.
+
+These are just a few of the many.
+
+Some of these volume drivers support different storage providers.
+
+# For instance, X-ray storage driver can be used to provision storage on AWS, EBS, S3, EMC storage
+
+arrays like Isilon and Scaleio, or Google Persistent Disk or OpenStack cinder.
+
+# When you run a Docker container, you can choose to use a specific volume driver, such as the X-ray EBS, to provision a volume from Amazon EBS.
+![Document](../Images/cka5.jpeg)
+
+This will create a container and attach a volume from the AWS cloud.
+
+When the container exits, your data is saved in the cloud.
+
+In the upcoming lectures, we will see more about volumes in Kubernetes.
+
+
+Play
+Play
 
 
 
