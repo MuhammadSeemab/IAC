@@ -2411,18 +2411,19 @@ Well, that's it about volumes in Kubernetes.
 We will now head over to discuss persistent volumes.
 
 Next.
+--------------------
+## How to view the context 
 
+kubectl config use-context k8s
 
-Play
-Play
-Play
-Play
+kubeclt config get-contexts
+![Document](../Images/mtbc4.png)
 
+![Document](../Images/mtbc1.png)
 
+![Document](../Images/mtbc2.png)
 
-
-
-
+![Document](../Images/mtbc3.png)
 
 
 
