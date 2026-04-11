@@ -197,5 +197,5 @@ the admin password, settings for the database engine, and so on.
 # as we don't have to micromanage each Kubernetes object anymore.
 
 # Helm can do that for us.
-![Document](../Images/cka1.png)
+![Document](..../Images/cka1.png)
 
