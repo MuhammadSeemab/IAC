@@ -197,5 +197,31 @@ the admin password, settings for the database engine, and so on.
 # as we don't have to micromanage each Kubernetes object anymore.
 
 # Helm can do that for us.
+
 ![Document](..../Images/cka1.png)
+
+-----------------------------------------------------------------------
+------------------------------------------------------------------
+# Installation and Configuration 
+And before installing Helm,
+
+you must first have a **functional Kubernetes cluster** and **kubectl installed** and configured on your local computer with the right **login details set up the kubeconfig file** to work with the intended Kubernetes cluster.
+
+
+System with Snap can install Helm using the **snap install helm command**.
+
+**Use the classic option** to install a more relaxed sandbox that gives the app a bit more access to the whole system.So rather than strictly isolating it to its separate environment,
+
+this way, Helm can easily access the kubeconfig file in your home directory so it knows how to connect to our Kubernetes cluster.
+
+For **APT bases systems, such as the BN or Ubuntu**, follow the instructions to add key and sources list before installing Helm.
+
+And for **PKG**, I'll run the pkg install helm command.
+![Document](../Images/cka1.PNG)
+Now, all this refer to the latest instructions from the documentation pages to install Helm for your version of operating system.
+
+Well, that's all for now. Head over to the labs and practice working with installing Helm on our lab environment.
+
+
+
 
