@@ -273,6 +273,7 @@ After cool stuff like role-based access control and custom resource definitions 
 the need for Tiller decreased,
 
 # so it was removed entirely in Helm 3. Now, there's nothing sitting between Helm and the cluster.
+![Document](../Images/helm3.PNG)
 
 Furthermore, with RBAC, security is much improved and any user can be limited in what they can do with Helm.
 
