@@ -222,6 +222,8 @@ And for **PKG**, I'll run the pkg install helm command.
 Now, all this refer to the latest instructions from the documentation pages to install Helm for your version of operating system.
 
 Well, that's all for now. Head over to the labs and practice working with installing Helm on our lab environment.
+---------------------------------------------------------
+--------------------------------------------
 
 
 
