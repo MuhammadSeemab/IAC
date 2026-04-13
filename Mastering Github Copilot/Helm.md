@@ -224,6 +224,62 @@ Now, all this refer to the latest instructions from the documentation pages to i
 Well, that's all for now. Head over to the labs and practice working with installing Helm on our lab environment.
 ---------------------------------------------------------
 --------------------------------------------
+# Slide Quick Note on Helm2 and Helm3
+
+# when Helm 3 was released compared to Helm 2. And when you browse through charts and blogs online, you may come across either of these versions. So, it is important to understand the differences between them.
+
+Now, let's look at a brief history of Helm.
+
+# Helm 1.0 was first released in February, 2016,
+
+# Helm 2.0 in November, 2016, and Helm 3.0 in November, 2019.
+
+# Now, since the initial launch in 2016,
+
+# the project has matured, and it got better and better.
+
+The improvements were also made possible by the fact
+
+that Kubernetes itself was improving,
+
+# so Helm had more tools at its disposal it could leverage right off of Kubernetes.
+
+In our lessons, we'll use Helm 3, which has a simpler and better design than the previous Helm 2 and is also a bit smarter.
+
+# Since Helm 2 was around for a few years, a lot of users had already been using it, but there are several important changes made when Helm 3 was launched.
+
+So, let's take a look at the differences between them.
+
+# Helm has a CLI client installed on your local machine that helps you perform Helm-specific actions against your Kubernetes cluster.
+
+# When Helm 2 was around, Kubernetes lacked features
+
+**1. such as role-based access control**
+
+**2.  custom resource definitions.**
+
+To allow Helm to do its magic, an extra component called Tiller had to be installed in the Kubernetes cluster.
+
+# So, whenever you wanted to perform a Helm specific operation, your Helm client communicated with Tiller that was running on some server.
+
+# Tiller, in turn, communicated with Kubernetes and proceeded to take actions to make whatever you requested happen. So, Tiller was the middleman, so to speak. Besides the fact that an extra component sitting between you and Kubernetes adds complexity,there were also some security concerns.
+![Document](../Images/helm2.PNG)
+# By default, Tiller was running in God mode or otherwise said, it had the privileges to do anything that it wanted.
+
+# This was good since it allowed it to make whatever changes necessary in your Kubernetes cluster to install your charts, but this was bad since it allowed any user with Tiller, access to do whatever they wanted in the cluster.
+
+After cool stuff like role-based access control and custom resource definitions appeared in Kubernetes,
+
+the need for Tiller decreased,
+
+# so it was removed entirely in Helm 3. Now, there's nothing sitting between Helm and the cluster.
+
+Furthermore, with RBAC, security is much improved and any user can be limited in what they can do with Helm.
+
+# And before, you had to set these limits in Tiller and that was not the best option,
+
+# but with RBAC built from ground up to fine-tune user permissions in Kubernetes, it's now straightforward to do.
+
 
 
 
