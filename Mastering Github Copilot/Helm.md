@@ -478,7 +478,35 @@ while preserving the anything that you might have added.
 Well, that's all for this lecture
 
 and I
+------------------------------------
 
+# Slide#3 HELM Components
+
+## So we have the Helm command line utility on our local system that we will be using to perform Helm actionssuch as installing a chart, upgrading, rollback, et cetera.
+
+**Charts are a collection of files, and they contain all the instructions that Helm needs to know to be able to create the collection of objects that you need in your Kubernetes cluster.
+**
+**By using charts and adding the objects according to these specific instructions in the charts, Helm, in a way, installs applications into your cluster.
+**
+# When a chart is applied to your cluster, a release is created. A release is a single installation of an application using a Helm chart.
+
+## Within each release, you can have multiple revisions, and each revision is like a snapshot of the application.Every time a change is made to the applications, such as an upgrade of the image or change of replicas or configuration objects, a new revision is created.
+
+Now, just like how we can find all kinds of images on Docker hub or Vagrant boxes on the Vagrant Cloud,
+
+if you're familiar with that, you know, we can find Helm charts in a public repository. We can easily download publicly available charts
+for various applications, and these are readily available and we can use them to deploy applications on our cluster.
+
+# And finally, to keep track of what it did in our cluster,such as the releases that it installed, the charts used, revision states and so on, Helm will need a place to save this data. This data is known as metadata, and that is data about data.
+
+Now, it wouldn't be too useful if Helm would save this on our local computer.
+
+If another person would need to work with our releasesthrough Helm, they would need a copy of this data.
+![Document](../Images/helm6.PNG)
+
+**So instead, Helm does the smart thing and saves this metadata directly in our Kubernetes clusteras Kubernetes secrets.This way, the data survives,and as long as the Kubernetes cluster survives and everyone from our team can access it, so they can do Helm upgradesor whatever it is that they want to do.**
+
+# So Helm will always know about everything it did in this cluster and will be able to keep track of every action, every step of the way, since it always has its metadata available.
 
 
 
